@@ -22,4 +22,6 @@ class OrderModelTest(TestCase):
         self.assertTrue(self.product2 in order.product.all())
 
     def test_order_str(self):
-        self.assertEqual(str(self.order), f"Order {self.order.id} by {self.order.user.username}")
+        self.assertEqual(
+            str(self.order), f"Order {self.order.id} by {self.order.user.username}"
+        )

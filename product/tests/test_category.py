@@ -5,7 +5,11 @@ from product.factories import CategoryFactory
 
 class TestCategoryModel(TestCase):
     def setUp(self) -> None:
-        self.category = CategoryFactory(title="electronics", slug="electronics", description="All kinds of electronic products.")
+        self.category = CategoryFactory(
+            title="electronics",
+            slug="electronics",
+            description="All kinds of electronic products.",
+        )
 
     def test_category_creation(self):
         category = Category.objects.get(id=self.category.id)
