@@ -2,12 +2,12 @@ import json
 
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient, APITestCase
 
 from order.factories import OrderFactory, UserFactory
 from order.models import Order
 from product.factories import CategoryFactory, ProductFactory
-from product.models import Product
 
 
 class TestOrderViewSet(APITestCase):
@@ -15,11 +15,16 @@ class TestOrderViewSet(APITestCase):
     client = APIClient()
 
     def setUp(self):
+        self.user = UserFactory()
+        self.token = Token.objects.create(user=self.user)
+        self.client.force_authenticate(user=self.user)
+
         self.category = CategoryFactory(title="technology")
-        self.product = ProductFactory(
-            title="mouse", price=100, category=[self.category]
-        )
-        self.order = OrderFactory(product=[self.product])
+        self.product = ProductFactory(title="mouse", price=100)
+        self.product.category.add(self.category)
+
+        self.order = OrderFactory(user=self.user)
+        self.order.product.add(self.product)
 
     def test_order(self):
         response = self.client.get(
@@ -28,12 +33,14 @@ class TestOrderViewSet(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         order_data = json.loads(response.content)
-        self.assertEqual(order_data[0]["product"][0]["title"], self.product.title)
-        self.assertEqual(order_data[0]["product"][0]["price"], self.product.price)
-        self.assertEqual(order_data[0]["product"][0]["active"], self.product.active)
-        self.assertEqual(order_data[0]["product"][0]["category"][0]["title"], self.category.title)
+        self.assertEqual(order_data["results"][0]["product"][0]["title"], self.product.title)
+        self.assertEqual(order_data["results"][0]["product"][0]["price"], self.product.price)
+        self.assertEqual(order_data["results"][0]["product"][0]["active"], self.product.active)
+        self.assertEqual(order_data["results"][0]["product"][0]["category"][0]["title"], self.category.title)
 
     def test_create_order(self):
+        token = Token.objects.get(user__username=self.user.username)
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
         user = UserFactory()
         product = ProductFactory()
         data = json.dumps({"product_id": [product.id], "user": user.id})
