@@ -20,7 +20,7 @@ RUN apt-get update \
         build-essential \
         libpq-dev \
         gcc \
-    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/lib/apt/lists/* 
 
 RUN curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
 
