@@ -16,6 +16,7 @@ psycopg2-binary = "^2.9.2"
 flake8 = "^4.0.1"
 python-dotenv = {extras = ["cli"], version = "^1.0.1"}
 faker = "^30.6.0"
+gitpython = "^3.1.44"
 
 
 [tool.poetry.group.dev.dependencies] 
