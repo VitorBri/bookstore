@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "bookstore"}]
 
 [tool.poetry.dependencies]
-python = ">=3.12"
+python = "^3.7"
 Django = "^3.2.8"
 django-rest-framework = "^0.1.0"
 django-extensions = "^3.1.3"
