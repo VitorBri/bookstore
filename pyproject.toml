@@ -14,6 +14,7 @@ django-debug-toolbar = "^3.2.2"
 flake8 = "^4.0.1"
 python-dotenv = {extras = ["cli"], version = "^1.0.1"}
 faker = "^30.6.0"
+psycopg2 = "^2.9.10"
 
 
 [tool.poetry.group.dev.dependencies] 
