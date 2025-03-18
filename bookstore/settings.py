@@ -55,6 +55,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "bookstore.urls"
@@ -148,6 +149,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-DEBUG = int(os.environ.get("DEBUG", default=0))
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
